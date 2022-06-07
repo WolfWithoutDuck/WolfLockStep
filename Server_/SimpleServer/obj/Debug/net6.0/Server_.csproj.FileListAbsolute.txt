@@ -1,0 +1,15 @@
+D:\git\stepLock\WolfLockStep\Server_\Server_\bin\Debug\net6.0\Server_.exe
+D:\git\stepLock\WolfLockStep\Server_\Server_\bin\Debug\net6.0\Server_.deps.json
+D:\git\stepLock\WolfLockStep\Server_\Server_\bin\Debug\net6.0\Server_.runtimeconfig.json
+D:\git\stepLock\WolfLockStep\Server_\Server_\bin\Debug\net6.0\Server_.dll
+D:\git\stepLock\WolfLockStep\Server_\Server_\bin\Debug\net6.0\Server_.pdb
+D:\git\stepLock\WolfLockStep\Server_\Server_\obj\Debug\net6.0\Server_.csproj.AssemblyReference.cache
+D:\git\stepLock\WolfLockStep\Server_\Server_\obj\Debug\net6.0\Server_.GeneratedMSBuildEditorConfig.editorconfig
+D:\git\stepLock\WolfLockStep\Server_\Server_\obj\Debug\net6.0\Server_.AssemblyInfoInputs.cache
+D:\git\stepLock\WolfLockStep\Server_\Server_\obj\Debug\net6.0\Server_.AssemblyInfo.cs
+D:\git\stepLock\WolfLockStep\Server_\Server_\obj\Debug\net6.0\Server_.csproj.CoreCompileInputs.cache
+D:\git\stepLock\WolfLockStep\Server_\Server_\obj\Debug\net6.0\Server_.dll
+D:\git\stepLock\WolfLockStep\Server_\Server_\obj\Debug\net6.0\refint\Server_.dll
+D:\git\stepLock\WolfLockStep\Server_\Server_\obj\Debug\net6.0\Server_.pdb
+D:\git\stepLock\WolfLockStep\Server_\Server_\obj\Debug\net6.0\Server_.genruntimeconfig.cache
+D:\git\stepLock\WolfLockStep\Server_\Server_\obj\Debug\net6.0\ref\Server_.dll

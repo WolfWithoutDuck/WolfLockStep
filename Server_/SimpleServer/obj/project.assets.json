@@ -1,0 +1,94 @@
+{
+  "version": 3,
+  "targets": {
+    "net6.0": {
+      "LockStepEngine/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/LockStepEngine.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/LockStepEngine.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "LockStepEngine/1.0.0": {
+      "type": "project",
+      "path": "../LockStepEngine/LockStepEngine.csproj",
+      "msbuildProject": "../LockStepEngine/LockStepEngine.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net6.0": [
+      "LockStepEngine >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\admin\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "D:\\git\\stepLock\\WolfLockStep\\Server_\\SimpleServer\\SimpleServer.csproj",
+      "projectName": "SimpleServer",
+      "projectPath": "D:\\git\\stepLock\\WolfLockStep\\Server_\\SimpleServer\\SimpleServer.csproj",
+      "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+      "outputPath": "D:\\git\\stepLock\\WolfLockStep\\Server_\\SimpleServer\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net6.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "projectReferences": {
+            "D:\\git\\stepLock\\WolfLockStep\\Server_\\LockStepEngine\\LockStepEngine.csproj": {
+              "projectPath": "D:\\git\\stepLock\\WolfLockStep\\Server_\\LockStepEngine\\LockStepEngine.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net6.0": {
+        "targetAlias": "net6.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
