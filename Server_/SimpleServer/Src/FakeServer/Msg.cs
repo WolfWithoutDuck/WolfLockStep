@@ -1,4 +1,5 @@
 using Lockstep.Math;
+using Lockstep.Network;
 using Lockstep.Serialization;
 
 public class PlayerServerInfo : BaseFormater
@@ -102,4 +103,123 @@ public class FrameInput : BaseFormater
     }
 }
 
- 
+namespace Lockstep.FakeServer
+{
+    public enum EMsgType
+    {
+        JoinRoom,
+        QuitRoom,
+        PlayerInput,
+        FrameInput,
+        StartGame,
+        HashCode
+    }
+
+    public class Msg_HashCode : BaseFormater, IMessage
+    {
+        public ushort opcode { get; set; } = (ushort)EMsgType.HashCode;
+        public int tick;
+        public int hash;
+
+        public override void Serialize(Serializer writer)
+        {
+            writer.Write(tick);
+            writer.Write(hash);
+        }
+
+        public override void Deserialize(Deserializer reader)
+        {
+            tick = reader.ReadInt32();
+            hash = reader.ReadInt32();
+        }
+    }
+
+    public class Msg_JoinRoom : BaseFormater, IMessage
+    {
+        public ushort opcode { get; set; } = (ushort)EMsgType.JoinRoom;
+        public string name;
+
+        public override void Serialize(Serializer writer)
+        {
+            writer.Write(name);
+        }
+
+        public override void Deserialize(Deserializer reader)
+        {
+            name = reader.ReadString();
+        }
+    }
+            public class Msg_QuitRoom : BaseFormater, IMessage
+        {
+            public ushort opcode { get; set; } = (ushort)EMsgType.QuitRoom;
+
+            public int val;
+
+            public override void Serialize(Serializer writer)
+            {
+                writer.Write(val);
+            }
+
+            public override void Deserialize(Deserializer reader)
+            {
+                val = reader.ReadInt32();
+            }
+        }
+
+        public class Msg_PlayerInput : BaseFormater, IMessage
+        {
+            public ushort opcode { get; set; } = (ushort)EMsgType.PlayerInput;
+            public int tick;
+            public PlayerInput input;
+
+            public override void Serialize(Serializer writer)
+            {
+                writer.Write(tick);
+                writer.Write(input);
+            }
+
+            public override void Deserialize(Deserializer reader)
+            {
+                tick = reader.ReadInt32();
+                input = reader.ReadRef(ref input);
+            }
+        }
+
+        public class Msg_StartGame : BaseFormater, IMessage
+        {
+            public ushort opcode { get; set; } = (ushort)EMsgType.StartGame;
+            public int mapId;
+            public int localPlayerId;
+            public PlayerServerInfo[] playerInfos;
+
+            public override void Serialize(Serializer writer)
+            {
+                writer.Write(mapId);
+                writer.Write(localPlayerId);
+                writer.Write(playerInfos);
+            }
+
+            public override void Deserialize(Deserializer reader)
+            {
+                mapId = reader.ReadInt32();
+                localPlayerId = reader.ReadInt32();
+                playerInfos = reader.ReadArray(playerInfos);
+            }
+        }
+
+        public class Msg_FrameInput : BaseFormater, IMessage
+        {
+            public ushort opcode { get; set; } = (ushort)EMsgType.FrameInput;
+            public FrameInput input;
+
+            public override void Serialize(Serializer writer)
+            {
+                writer.Write(input);
+            }
+
+            public override void Deserialize(Deserializer reader)
+            {
+                input = reader.ReadRef(ref input);
+            }
+        }
+}
