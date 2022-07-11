@@ -1,4 +1,7 @@
+using System.Diagnostics;
 using Lockstep.Network;
+using Lockstep.Logging;
+using Debug = Lockstep.Logging.Debug;
 
 namespace Lockstep.FakeServer;
 
@@ -113,5 +116,58 @@ public class Room
 
     public void OnPlayerHashCode(int userId, Msg_HashCode msg)
     {
+        int localId = 0;
+        if (!id2LocalId.TryGetValue(userId, out localId))
+        {
+            return;
+        }
+
+        int[] hashes;
+        if (!tick2Hashes.TryGetValue(msg.tick, out hashes))
+        {
+            hashes = new int[maxPlayerCount];
+            tick2Hashes.Add(msg.tick, hashes);
+        }
+
+        hashes[localId] = msg.hash;
+
+        foreach (var hash in hashes)
+        {
+            if (hash == 0)
+            {
+                return;
+            }
+        }
+
+        bool isSame = true;
+
+        var val = hashes[0];
+
+        foreach (var hash in hashes)
+        {
+            if (hash != val)
+            {
+                isSame = false;
+                break;
+            }
+        }
+
+        if (!isSame)
+        {
+            Debug.Log(msg.tick + " Hash is different " + val);
+        }
+    }
+
+    public void Join(Session session, PlayerServerInfo player)
+    {
+        if (id2LocalId.ContainsKey(player.Id))
+        {
+            return;
+        }
+
+        id2LocalId[player.Id] = curLocalId;
+        playerInfos[curLocalId] = player;
+        PlayerSessions[curLocalId] = session;
+        curLocalId++;
     }
 }

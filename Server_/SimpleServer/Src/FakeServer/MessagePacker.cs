@@ -5,6 +5,8 @@ namespace Lockstep.FakeServer;
 
 public class MessagePacker : IMessagePacker
 {
+    public static MessagePacker Instance { get; } = new MessagePacker();
+
     public object DeserializeFrom(ushort opcode, byte[] bytes, int index, int count)
     {
         var type = (EMsgType)opcode;
