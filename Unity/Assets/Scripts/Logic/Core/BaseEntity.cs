@@ -1,6 +1,8 @@
 using System;
 using Lockstep.Collision2D;
+using Lockstep.Game;
 using Lockstep.Math;
+using UnityEngine;
 
 namespace Lockstep.Logic
 {
@@ -53,9 +55,19 @@ namespace Lockstep.Logic
     {
         
     }
-
-    public class BaseEntity : BaseLifeCycle,IEntity,ILPTriggerEventHandler
+    
+    [Serializable]
+    public class 
+        BaseEntity : BaseLifeCycle,IEntity,ILPTriggerEventHandler
     {
+        [Header("BaseComponents")]
+        public EntityAttri entityAttri = new EntityAttri();
+
+        public CRigidbody rigidbody = new CRigidbody();
+        public CTransform2D transform = new CTransform2D();
+        // public CAnimation
+        public int EntityId;
+        
         public void OnLPTriggerEnter(ColliderProxy other)
         {
             throw new NotImplementedException();
