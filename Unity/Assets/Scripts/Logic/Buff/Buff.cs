@@ -251,7 +251,7 @@ namespace Lockstep.Logic
                 return;
             }
 
-            Debug.LogError("Miss id " + id);
+            Debug.LogError("Miss Id " + id);
         }
 
         private void AddBuff(Buff buff)

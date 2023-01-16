@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Lockstep.Collision2D;
 using Lockstep.Logic;
 using Lockstep.Math;
 using UnityEngine;
@@ -138,7 +139,7 @@ public class CAnimation : MonoBehaviour, IView
 
         if (!Application.isPlaying)
         {
-            sample(timer);
+            Sample(timer);
         }
 
         UpdateTrans();
@@ -146,9 +147,17 @@ public class CAnimation : MonoBehaviour, IView
 
     private void UpdateTrans()
     {
+        var idx = GetTimeIdx(timer);
+        if (CurAnimBindInfo.isMoveByAnim)
+        {
+            var animOffset = CurAnimInfo[idx].pos;
+            var pos = owner.transform.TransformDirection(animOffset.ToLVector2XZ());
+            owner.transform.Pos3 = initPos + pos.ToLVector3XZ(animOffset.y);
+            rootTrans.localPosition = Vector3.zero;
+        }
     }
 
-    private void sample(LFloat time)
+    private void Sample(LFloat time)
     {
         if (animState == null)
         {
@@ -170,9 +179,11 @@ public class CAnimation : MonoBehaviour, IView
         }
     }
 
-    private int GetTimeIdx(LFloat lFloat)
+    private int GetTimeIdx(LFloat timer)
     {
-        throw new NotImplementedException();
+        var idx = (int)(timer / AnimatorConfig.FrameInterval);
+        idx = Math.Min(CurAnimInfo.OffsetCount - 1, idx);
+        return idx;
     }
 
 

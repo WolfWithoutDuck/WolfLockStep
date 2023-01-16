@@ -10,7 +10,7 @@ namespace Lockstep.Game {
 
     [Serializable]
     public partial class CRigidbody : IBaseComponent {
-        public CTransform2D transform { get; private set; }
+        public CTransform2D transform2D { get; private set; }
         public static LFloat G = new LFloat(10);
         public static LFloat MinSleepSpeed = new LFloat(null, 100);
         public static LFloat FloorFriction = new LFloat(20);
@@ -26,7 +26,7 @@ namespace Lockstep.Game {
         public bool isOnFloor;
 
         public void BindRef(CTransform2D transform2D){
-            this.transform = transform2D;
+            this.transform2D = transform2D;
         }
 
         //private int __id;
@@ -34,11 +34,11 @@ namespace Lockstep.Game {
         public void DoStart(){
             //__id = __idCount++;
             LFloat y = LFloat.zero;
-            isOnFloor = TestOnFloor(transform.Pos3, ref y);
+            isOnFloor = TestOnFloor(transform2D.Pos3, ref y);
             Speed = LVector3.zero;
             isSleep = isOnFloor;
-            lastPos = transform.Pos3;
-            lastDeg = transform.deg;
+            lastPos = transform2D.Pos3;
+            lastDeg = transform2D.deg;
             
         }
 
@@ -46,23 +46,23 @@ namespace Lockstep.Game {
         public LFloat lastDeg;
         public void DoUpdate(LFloat deltaTime){
             if (!isEnable) return;
-            if (!TestOnFloor(transform.Pos3)) {
+            if (!TestOnFloor(transform2D.Pos3)) {
                 isSleep = false;
             }
 
-            lastPos = transform.Pos3;
-            lastDeg = transform.deg;
+            lastPos = transform2D.Pos3;
+            lastDeg = transform2D.deg;
             if (!isSleep) {
                 if (!isOnFloor) {
                     Speed.y -= G * deltaTime;
                     Speed.y = LMath.Max(MinYSpd, Speed.y);
                 }
 
-                var pos = transform.Pos3;
+                var pos = transform2D.Pos3;
                 pos += Speed * deltaTime;
                 LFloat y = pos.y;
                 //Test floor
-                isOnFloor = TestOnFloor(transform.Pos3, ref y);
+                isOnFloor = TestOnFloor(transform2D.Pos3, ref y);
                 if (isOnFloor && Speed.y <= 0) {
                     Speed.y = LFloat.zero;
                 }
@@ -86,7 +86,7 @@ namespace Lockstep.Game {
                     }
                 }
 
-                transform.Pos3 = pos;
+                transform2D.Pos3 = pos;
             }
         }
 

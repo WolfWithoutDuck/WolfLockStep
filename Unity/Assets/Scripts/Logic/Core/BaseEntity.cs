@@ -1,8 +1,12 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Lockstep.Collision2D;
+using Lockstep.ECS;
 using Lockstep.Game;
 using Lockstep.Math;
 using UnityEngine;
+using Debug = Lockstep.Logging.Debug;
 
 namespace Lockstep.Logic
 {
@@ -29,7 +33,7 @@ namespace Lockstep.Logic
     public interface ILifeCycle : IUpdate, IAwake, IStart, IDestroy
     {
     }
-    
+
     [Serializable]
     public class BaseLifeCycle : ILifeCycle
     {
@@ -53,34 +57,130 @@ namespace Lockstep.Logic
 
     public interface IEntity : ILifeCycle
     {
-        
     }
-    
-    [Serializable]
-    public class 
-        BaseEntity : BaseLifeCycle,IEntity,ILPTriggerEventHandler
-    {
-        [Header("BaseComponents")]
-        public EntityAttri entityAttri = new EntityAttri();
 
+    [Serializable]
+    public class
+        BaseEntity : BaseLifeCycle, IEntity, ILPTriggerEventHandler
+    {
+        [Header("BaseComponents")] public EntityAttri entityAttri = new EntityAttri();
         public CRigidbody rigidbody = new CRigidbody();
         public CTransform2D transform = new CTransform2D();
-        // public CAnimation
+        public CAnimation animator = new CAnimation();
         public int EntityId;
-        
-        public void OnLPTriggerEnter(ColliderProxy other)
+        public int PrefabId;
+
+        [Header("Other Attri")] public object engineTransform;
+        public bool isDead;
+        public int startingHealth = 100;
+        public int currentHealth;
+        public bool isInvincible;
+        public bool isFire;
+        public LFloat speed = new LFloat(5);
+        public Action<int, LVector3> OnBeAtked;
+
+        protected List<BaseComponent> allComponents = new List<BaseComponent>();
+        protected List<CSkill> allSkills = new List<CSkill>();
+        public static int _IdCounter;
+
+        public BaseEntity()
         {
-            throw new NotImplementedException();
+            Debug.Trace("BaseEntity  " + _IdCounter.ToString(), true);
+            EntityId = _IdCounter++;
+            rigidbody.BindRef(transform);
         }
 
-        public void OnLPTriggerStay(ColliderProxy other)
+        protected void RegisterComponent(BaseComponent comp)
         {
-            throw new NotImplementedException();
+            allComponents.Add(comp);
+            comp.BindEntity(this);
         }
 
-        public void OnLPTriggerExit(ColliderProxy other)
+        public override void DoAwake()
         {
-            throw new NotImplementedException();
+            allSkills = ((Transform)(UnityEngine.Object)(engineTransform)).GetComponents<CSkill>().ToList();
+            currentHealth = startingHealth;
+            foreach (var comp in allComponents)
+            {
+                comp.DoAwake();
+            }
+        }
+
+        public override void DoStart()
+        {
+            rigidbody.DoStart();
+            foreach (var comp in allComponents)
+            {
+                comp.DoStart();
+            }
+        }
+
+        public override void DoUpdate(LFloat deltaTime)
+        {
+            foreach (var skill in allSkills)
+            {
+                skill.DoUpdate(deltaTime);
+            }
+
+            rigidbody.DoUpdate(deltaTime);
+            foreach (var comp in allComponents)
+            {
+                comp.DoUpdate(deltaTime);
+            }
+        }
+
+        public override void DoDestroy()
+        {
+            foreach (var comp in allComponents)
+            {
+                comp.DoDestroy();
+            }
+        }
+
+        public virtual void TakeDamage(int amount, LVector3 hitPoint)
+        {
+            if (isInvincible || isDead) return;
+            OnTakeDamage(amount, hitPoint);
+        }
+
+        protected virtual void OnTakeDamage(int amount, LVector3 hitPoint)
+        {
+        }
+
+        public virtual void OnLPTriggerEnter(ColliderProxy other)
+        {
+        }
+
+        public virtual void OnLPTriggerStay(ColliderProxy other)
+        {
+        }
+
+        public virtual void OnLPTriggerExit(ColliderProxy other)
+        {
+        }
+    }
+
+    public interface IManager : ILifeCycle
+    {
+    }
+
+    [Serializable]
+    public class BaseManager : MonoBehaviour, IManager
+    {
+        public virtual void DoAwake()
+        {
+        }
+
+        public virtual void DoStart()
+        {
+        }
+
+        public virtual void DoUpdate(LFloat deltaTime)
+        {
+        }
+
+        public virtual void DoDestroy()
+        {
         }
     }
 }
